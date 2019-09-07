@@ -20,6 +20,15 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(__dirname + "/public"));
 
+// Image Upload Config
+const destination = "images/";
+const mozJpegConfig = {
+  quality: 30
+}
+const pngQuantConfig = {
+  quality: [0.3, 0.4]
+}
+
 const upload = multer({
   dest: path.resolve(__dirname, "temporary")
 });
@@ -50,18 +59,14 @@ app.post("/upload", upload.single("file"), (req, res) => {
   // compress images
   (async () => {
     await imagemin(["temporary/*.{jpg,png}"], {
-      destination: "images/",
+      destination: destination,
       plugins: [
-        imageminMozjpeg({
-          quality: 30
-        }),
-        imageminPngquant({
-          quality: [0.3, 0.4]
-        })
+        imageminMozjpeg(mozJpegConfig),
+        imageminPngquant(pngQuantConfig)
       ]
     });
 
-    // Empty original directory
+    // Empty temporary directory
     const directory = path.join(__dirname, "/temporary");
     fs.readdir(directory, (err, files) => {
       if (err) throw err;
