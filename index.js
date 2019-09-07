@@ -50,7 +50,7 @@ app.post("/upload", upload.single("file"), (req, res) => {
   // compress images
   (async () => {
     await imagemin(["temporary/*.{jpg,png}"], {
-      destination: "build/",
+      destination: "images/",
       plugins: [
         imageminMozjpeg({
           quality: 30
