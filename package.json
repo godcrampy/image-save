@@ -9,7 +9,7 @@
   "keywords": [
     "godcrampy"
   ],
-  "author": "",
+  "author": "Sahil Bondre",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
